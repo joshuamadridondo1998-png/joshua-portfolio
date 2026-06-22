@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Joshua M. Albaña Portfolio",
+  "description": "Professional portfolio website of Joshua M. Albaña, an Operations, Logistics, and Administrative Support Specialist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
