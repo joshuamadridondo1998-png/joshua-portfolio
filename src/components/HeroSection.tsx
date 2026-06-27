@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "motion/react";
 import { 
   MapPin, 
@@ -10,11 +10,17 @@ import {
   Laptop, 
   Lightbulb, 
   Cpu,
-  Sparkles
+  Sparkles,
+  Globe
 } from "lucide-react";
 import { PERSONAL_INFO, CERTIFICATIONS } from "../data";
+import { useLanguage } from "../context/LanguageContext";
+import PrintCVModal from "./PrintCVModal";
 
 export default function HeroSection() {
+  const { language, setLanguage, t } = useLanguage();
+  const [isCVModalOpen, setIsCVModalOpen] = useState(false);
+
   const scrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const element = document.getElementById("contact");
@@ -30,7 +36,7 @@ export default function HeroSection() {
   };
 
   const handlePrint = () => {
-    window.print();
+    setIsCVModalOpen(true);
   };
 
   return (
@@ -63,46 +69,72 @@ export default function HeroSection() {
           {/* Left Side: Creative Poster Typography & Information */}
           <div className="lg:col-span-7 flex flex-col space-y-8">
             
-            {/* Live Status Badge */}
-            <div className="inline-flex">
-              <span className="inline-flex items-center space-x-2 bg-zinc-950 text-[#f59e0b] px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            {/* Live Status Badge & Language Toggle Row */}
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="inline-flex">
+                <span className="inline-flex items-center space-x-2 bg-zinc-950 text-[#f59e0b] px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span>{t("riyadh_based")}</span>
                 </span>
-                <span>RIYADH BASED • IQAMA READY TO TRANSFER</span>
-              </span>
+              </div>
+
+              {/* Language Selection Toggle */}
+              <div className="inline-flex p-1 bg-white dark:bg-[#1C1B19] rounded-xl border-2 border-zinc-950 dark:border-zinc-800 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)] select-none">
+                <button
+                  onClick={() => setLanguage("en")}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider transition-all flex items-center space-x-1 cursor-pointer ${
+                    language === "en"
+                      ? "bg-[#f59e0b] text-zinc-950 border border-zinc-950 shadow-[1px_1px_0px_0px_rgba(24,24,27,1)]"
+                      : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white border border-transparent"
+                  }`}
+                >
+                  <span>English</span>
+                </button>
+                <button
+                  onClick={() => setLanguage("ar")}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-black tracking-wider transition-all flex items-center space-x-1 cursor-pointer ${
+                    language === "ar"
+                      ? "bg-[#f59e0b] text-zinc-950 border border-zinc-950 shadow-[1px_1px_0px_0px_rgba(24,24,27,1)]"
+                      : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white border border-transparent"
+                  }`}
+                >
+                  <span className="flex items-center gap-1">العربية <span className="text-[10px]">🇸🇦</span></span>
+                </button>
+              </div>
             </div>
 
             {/* Title Block matching 'PORTO FOLO.' layout */}
             <div className="relative">
               {/* Massive quotation marks */}
-              <span className="absolute -top-12 -left-8 text-7xl sm:text-9xl font-serif text-[#f59e0b] select-none opacity-50 dark:opacity-30">“</span>
+              <span className={`absolute -top-12 text-7xl sm:text-9xl font-serif text-[#f59e0b] select-none opacity-50 dark:opacity-30 ${language === "ar" ? "-right-8" : "-left-8"}`}>“</span>
               
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-sans font-black tracking-tight leading-none text-zinc-900 dark:text-white uppercase relative z-10 flex flex-col items-start">
                 <span className="bg-[#f59e0b] text-zinc-950 px-5 py-2.5 inline-block rounded-2xl rotate-[-2deg] shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] mb-2 font-black">
-                  JOSHUA
+                  {t("joshua")}
                 </span>
                 <span className="block tracking-tighter text-zinc-950 dark:text-white font-black pl-1">
-                  ALBAÑA.
+                  {t("albana")}
                 </span>
               </h1>
               
               <span className="inline-block mt-3 px-3 py-1 bg-zinc-200/90 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-md text-xs font-mono font-bold uppercase tracking-wider">
-                Specialized Operations
+                {t("specialized_ops")}
               </span>
             </div>
 
             {/* Current Subtitle */}
-            <div className="border-[#f59e0b] border-l-4 pl-4 py-1">
+            <div className={`border-[#f59e0b] py-1 ${language === "ar" ? "border-r-4 pr-4" : "border-l-4 pl-4"}`}>
               <p className="text-lg sm:text-xl font-bold text-zinc-800 dark:text-zinc-200 leading-tight">
-                {PERSONAL_INFO.title}
+                {t("ops_specialist")}
               </p>
             </div>
 
             {/* Bio summary text */}
             <p className="text-base text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl font-sans">
-              Currently based in Riyadh with a transferable Iqama (sponsor-approved transfer) and a valid work visa under <strong className="text-zinc-900 dark:text-[#f59e0b] font-bold">Office Supervisor</strong>. Highly motivated, reliable, and equipped with certification in advanced Microsoft Excel, logistical operations, and Zapier automated pipelines to scale company efficiency.
+              {t("bio")}
             </p>
 
             {/* Saudi Transfer Parameters Retro Cards */}
@@ -110,15 +142,15 @@ export default function HeroSection() {
               <div className="p-4 bg-white dark:bg-[#1C1B19] rounded-2xl border-2 border-zinc-950 dark:border-zinc-800 flex items-start space-x-3 shadow-[3px_3px_0px_0px_rgba(242,169,0,0.85)] transition-all">
                 <CheckCircle2 className="h-5 w-5 text-[#f59e0b] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-550 uppercase tracking-widest block font-bold">Transfer Status</span>
-                  <span className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5 block">{PERSONAL_INFO.availability}</span>
+                  <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-widest block font-bold">{t("transfer_status")}</span>
+                  <span className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5 block">{t("transfer_status_val")}</span>
                 </div>
               </div>
               <div className="p-4 bg-white dark:bg-[#1C1B19] rounded-2xl border-2 border-zinc-950 dark:border-zinc-800 flex items-start space-x-3 shadow-[3px_3px_0px_0px_rgba(242,169,0,0.85)] transition-all">
                 <ShieldCheck className="h-5 w-5 text-[#f59e0b] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-550 uppercase tracking-widest block font-bold">Visa Status</span>
-                  <span className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5 block">Office Supervisor Position</span>
+                  <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-widest block font-bold">{t("visa_status")}</span>
+                  <span className="text-sm font-bold text-zinc-900 dark:text-white mt-0.5 block">{t("visa_status_val")}</span>
                 </div>
               </div>
             </div>
@@ -129,8 +161,8 @@ export default function HeroSection() {
                 onClick={scrollToContact}
                 className="px-6 py-3.5 bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-[#f59e0b] dark:text-zinc-950 font-black text-sm rounded-xl border-2 border-zinc-950 dark:border-[#f59e0b] shadow-[4px_4px_0px_0px_rgba(242,169,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center space-x-2 cursor-pointer"
               >
-                <span>Hire Immediately</span>
-                <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
+                <span>{t("hire_immediately")}</span>
+                <ArrowRight className={`h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1 ${language === "ar" ? "rotate-180" : ""}`} />
               </button>
               
               <button
@@ -138,22 +170,21 @@ export default function HeroSection() {
                 className="px-6 py-3.5 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:text-zinc-950 dark:hover:text-white font-bold text-sm rounded-xl border-2 border-zinc-900 dark:border-zinc-700 hover:bg-zinc-100 hover:border-zinc-950 dark:hover:bg-zinc-800 transition-all flex items-center space-x-2 cursor-pointer"
               >
                 <FileText className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
-                <span>Print Resume</span>
+                <span>{t("print_resume")}</span>
               </button>
             </div>
 
           </div>
 
-          {/* Right Side: Elegant JSON Profile Overview Terminal */}
+            {/* Right Side: Elegant JSON Profile Overview Terminal */}
           <div className="lg:col-span-5 relative mt-8 lg:mt-0">
             {/* Aesthetic offset paper stack backboard */}
             <div className="absolute inset-x-0 inset-y-0 bg-[#f59e0b] rounded-2xl transform rotate-[2deg] scale-102 -z-10 opacity-90 border-2 border-zinc-950 dark:border-zinc-800 shadow-md"></div>
-            
             <div className="bg-zinc-950 text-zinc-100 rounded-2xl shadow-xl overflow-hidden border-2 border-zinc-950">
               
               {/* Card Header matching custom terminal view */}
               <div className="px-5 py-3.5 bg-zinc-900 flex items-center justify-between border-b-2 border-zinc-950">
-                <span className="text-xs font-mono font-bold tracking-wider text-zinc-400 uppercase">Profile-Overview.json</span>
+                <span className="text-xs font-mono font-bold tracking-wider text-zinc-400 uppercase">{t("profile_overview")}</span>
                 <div className="flex space-x-2">
                   <div className="h-2.5 w-2.5 rounded-full bg-rose-500"></div>
                   <div className="h-2.5 w-2.5 rounded-full bg-amber-500"></div>
@@ -170,7 +201,7 @@ export default function HeroSection() {
                   </div>
                   <div>
                     <h4 className="text-base font-black text-white">{PERSONAL_INFO.name}</h4>
-                    <span className="text-xs font-mono text-[#f59e0b] font-bold uppercase tracking-wider">Available Immediately</span>
+                    <span className="text-xs font-mono text-[#f59e0b] font-bold uppercase tracking-wider">{t("available_immediately")}</span>
                   </div>
                 </div>
 
@@ -179,26 +210,26 @@ export default function HeroSection() {
                 {/* Key parameters details */}
                 <div className="space-y-3.5 text-sm">
                   <div className="flex justify-between items-center py-0.5">
-                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">Current Location</span>
+                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">{t("current_location")}</span>
                     <span className="text-white font-semibold flex items-center space-x-1">
                       <MapPin className="h-3.5 w-3.5 text-[#f59e0b] shrink-0" />
-                      <span>{PERSONAL_INFO.location}</span>
+                      <span>{t("location_val")}</span>
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-0.5">
-                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">Primary Email</span>
+                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">{t("primary_email")}</span>
                     <span className="text-amber-400 hover:underline font-mono text-xs font-semibold">{PERSONAL_INFO.email}</span>
                   </div>
                   <div className="flex justify-between items-center py-0.5">
-                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">Saudi Contact</span>
+                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">{t("saudi_contact")}</span>
                     <span className="text-white font-mono text-xs font-bold">{PERSONAL_INFO.phone}</span>
                   </div>
                   <div className="flex justify-between items-center py-0.5">
-                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">Office Skills</span>
+                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">{t("office_skills")}</span>
                     <span className="text-[#f59e0b] font-bold text-xs uppercase tracking-wide">MS Excel, Word, ERP</span>
                   </div>
                   <div className="flex justify-between items-center py-0.5">
-                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">Automation Systems</span>
+                    <span className="text-zinc-500 font-mono text-xs font-bold uppercase">{t("automation_systems")}</span>
                     <span className="text-white font-mono text-xs bg-zinc-800 px-2 py-0.5 rounded font-bold">Zapier AI Pipe</span>
                   </div>
                 </div>
@@ -207,10 +238,10 @@ export default function HeroSection() {
 
                 {/* Skills/Credentials badging */}
                 <div>
-                  <h5 className="text-[10px] font-mono uppercase text-zinc-550 mb-3 tracking-widest font-black">Key Certifications</h5>
+                  <h5 className="text-[10px] font-mono uppercase text-zinc-550 mb-3 tracking-widest font-black">{t("key_certifications")}</h5>
                   <div className="flex flex-wrap gap-2">
                     {CERTIFICATIONS.map((cert, index) => (
-                      <span key={index} className="text-[11px] px-2.5 py-1 bg-zinc-900 border-2 border-zinc-855 rounded-lg text-zinc-300 font-bold tracking-tight">
+                      <span key={index} className="text-[11px] px-2.5 py-1 bg-zinc-900 border-2 border-zinc-800 rounded-lg text-zinc-300 font-bold tracking-tight">
                         {cert.name.split(" (")[0]}
                       </span>
                     ))}
@@ -221,19 +252,19 @@ export default function HeroSection() {
 
                 {/* Languages badging */}
                 <div>
-                  <h5 className="text-[10px] font-mono uppercase text-zinc-550 mb-2.5 tracking-widest font-black">Languages</h5>
+                  <h5 className="text-[10px] font-mono uppercase text-zinc-550 mb-2.5 tracking-widest font-black">{t("languages")}</h5>
                   <div className="grid grid-cols-3 gap-2 text-center text-xs">
                     <div className="bg-zinc-900 border border-zinc-800 p-2 rounded-lg">
-                      <span className="block font-bold text-white">English</span>
-                      <span className="text-[10px] text-zinc-500 font-mono mt-0.5">Fluent</span>
+                      <span className="block font-bold text-white">{t("english")}</span>
+                      <span className="text-[10px] text-zinc-500 font-mono mt-0.5">{t("english_lvl")}</span>
                     </div>
                     <div className="bg-zinc-900 border border-zinc-800 p-2 rounded-lg">
-                      <span className="block font-bold text-white">Filipino</span>
-                      <span className="text-[10px] text-zinc-500 font-mono mt-0.5">Native</span>
+                      <span className="block font-bold text-white">{t("filipino")}</span>
+                      <span className="text-[10px] text-zinc-500 font-mono mt-0.5">{t("filipino_lvl")}</span>
                     </div>
                     <div className="bg-zinc-900 border border-zinc-800 p-2 rounded-lg">
-                      <span className="block font-bold text-[#f59e0b]">Arabic</span>
-                      <span className="text-[10px] text-zinc-500 font-mono mt-0.5">Beginner</span>
+                      <span className="block font-bold text-[#f59e0b]">{t("arabic")}</span>
+                      <span className="text-[10px] text-zinc-500 font-mono mt-0.5">{t("arabic_lvl")}</span>
                     </div>
                   </div>
                 </div>
@@ -257,6 +288,9 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+
+      {/* CV Print/Preview Modal */}
+      <PrintCVModal isOpen={isCVModalOpen} onClose={() => setIsCVModalOpen(false)} />
 
     </section>
   );

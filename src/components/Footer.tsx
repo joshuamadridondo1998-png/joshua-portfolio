@@ -1,7 +1,9 @@
 import { ArrowUp, Heart } from "lucide-react";
 import { PERSONAL_INFO } from "../data";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -20,17 +22,17 @@ export default function Footer() {
               {PERSONAL_INFO.name}
             </span>
             <span className="text-xs text-[#f59e0b] font-mono font-bold block uppercase tracking-wider">
-              Operations & Systems Support Specialist
+              {t("footer_specialist")}
             </span>
           </div>
 
           {/* Copyright details */}
           <div className="text-center text-xs space-y-2">
             <p className="flex items-center justify-center space-x-1.5 font-bold uppercase tracking-wider text-zinc-300">
-              <span>© {new Date().getFullYear()} {PERSONAL_INFO.name}. All rights reserved.</span>
+              <span>© {new Date().getFullYear()} {PERSONAL_INFO.name}. {t("rights_reserved")}</span>
             </p>
             <p className="text-[10px] text-zinc-500 font-mono font-bold uppercase">
-              Transferable Iqama (Sponsor Approved) • Based in Riyadh, Saudi Arabia
+              {t("footer_iqama")}
             </p>
           </div>
 

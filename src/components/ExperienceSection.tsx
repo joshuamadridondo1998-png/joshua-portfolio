@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Briefcase, GraduationCap, Award, Calendar, MapPin, CheckCircle, ArrowRight } from "lucide-react";
 import { EXPERIENCE, EDUCATION, CERTIFICATIONS } from "../data";
+import { useLanguage } from "../context/LanguageContext";
 
 type TabType = "experience" | "education" | "certifications";
 
 export default function ExperienceSection() {
   const [activeTab, setActiveTab] = useState<TabType>("experience");
+  const { t } = useLanguage();
 
   return (
     <section id="experience" className="relative py-24 bg-[#F4F2EB] dark:bg-[#121110] scroll-mt-12 transition-colors duration-300 overflow-hidden">
@@ -31,13 +33,13 @@ export default function ExperienceSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 relative">
           <div className="inline-block px-3 py-1.5 bg-[#f59e0b] text-zinc-950 text-[10px] font-mono uppercase tracking-widest font-black rounded-lg rotate-[-1deg] mb-4 select-none">
-            Qualifications
+            {t("qualifications_label")}
           </div>
           <h3 className="text-4xl sm:text-5xl font-sans font-black tracking-tight text-zinc-950 dark:text-white uppercase">
-            Professional Timeline & Credentials
+            {t("qualifications_title")}
           </h3>
           <p className="mt-4 text-sm font-semibold text-zinc-700 dark:text-zinc-350">
-            A comprehensive record of my professional experience, academic background, and technical certifications.
+            {t("qualifications_desc")}
           </p>
         </div>
 
@@ -53,8 +55,8 @@ export default function ExperienceSection() {
               }`}
             >
               <Briefcase className="h-4 w-4 shrink-0" />
-              <span className="hidden sm:inline">Work History</span>
-              <span className="inline sm:hidden">Jobs</span>
+              <span className="hidden sm:inline">{t("work_history")}</span>
+              <span className="inline sm:hidden">{t("work_history")}</span>
             </button>
             <button
               onClick={() => setActiveTab("education")}
@@ -65,8 +67,8 @@ export default function ExperienceSection() {
               }`}
             >
               <GraduationCap className="h-4 w-4 shrink-0" />
-              <span className="hidden sm:inline">Education</span>
-              <span className="inline sm:hidden">Study</span>
+              <span className="hidden sm:inline">{t("study")}</span>
+              <span className="inline sm:hidden">{t("study")}</span>
             </button>
             <button
               onClick={() => setActiveTab("certifications")}
@@ -77,8 +79,8 @@ export default function ExperienceSection() {
               }`}
             >
               <Award className="h-4 w-4 shrink-0" />
-              <span className="hidden sm:inline">Certificates</span>
-              <span className="inline sm:hidden">Certs</span>
+              <span className="hidden sm:inline">{t("certs")}</span>
+              <span className="inline sm:hidden">{t("certs")}</span>
             </button>
           </div>
         </div>
@@ -97,61 +99,62 @@ export default function ExperienceSection() {
               >
                 {EXPERIENCE.map((exp, index) => {
                   const isEven = index % 2 === 0;
+                  const expIdNum = index + 1;
                   return (
                     <div
-                      key={exp.id}
-                      className={`flex flex-col sm:flex-row items-stretch relative ${
-                        isEven ? "sm:flex-row-reverse" : ""
-                      }`}
-                    >
-                      {/* Central Timeline Switch Node */}
-                      <div className="absolute left-4 sm:left-1/2 top-4 -translate-x-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#f59e0b] border-2 border-zinc-950 text-zinc-950 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)]">
-                        <Briefcase className="h-4_5 w-4_5 stroke-[2.5]" />
-                      </div>
-
-                      {/* Content Card Side */}
-                      <div className="w-full sm:w-1/2 pl-12 sm:pl-0 sm:px-8">
-                        <div className="bg-white dark:bg-[#1C1B19] border-2 border-zinc-950 dark:border-zinc-800 p-6 rounded-2xl shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] dark:shadow-[3px_3px_0px_0px_rgba(242,169,0,0.7)] hover:shadow-[5px_5px_0px_0px_rgba(242,169,0,1)] dark:hover:shadow-[5px_5px_0px_0px_rgba(242,169,0,1)] transition-all text-left">
-                          
-                          {/* Metadata row with custom badges */}
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
-                            <span className="flex items-center space-x-1.5 text-xs font-mono font-bold text-zinc-950 bg-[#f59e0b] border border-zinc-950 px-2.5 py-1 rounded-md shadow-[1.5px_1.5px_0px_0px_rgba(24,24,27,1)]">
-                              <Calendar className="h-3 w-3" />
-                              <span>{exp.period}</span>
-                            </span>
-                            <span className="flex items-center space-x-1 text-xs font-bold text-zinc-500 font-mono bg-zinc-100 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 px-2.5 py-1 rounded-sm">
-                              <MapPin className="h-3 w-3 text-rose-500" />
-                              <span>{exp.location}</span>
-                            </span>
-                          </div>
-
-                          {/* Role and Company */}
-                          <h4 className="text-xl font-black text-zinc-900 dark:text-white uppercase tracking-tight leading-none mt-4">
-                            {exp.role}
-                          </h4>
-                          <span className="text-xs font-mono tracking-wider font-extrabold text-[#f59e0b] block mt-1.5 mb-4 uppercase">
-                            {exp.company}
-                          </span>
-
-                          {/* Bullets with custom indicators */}
-                          <ul className="space-y-3 pt-3 border-t border-zinc-100 dark:border-zinc-800">
-                            {exp.bullets.map((bullet, idx) => (
-                              <li key={idx} className="flex items-start space-x-2.5 text-xs text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed">
-                                <span className="h-2 w-2 rounded-full bg-[#f59e0b] mt-1 shrink-0 border border-zinc-950" />
-                                <span>{bullet}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                        </div>
-                      </div>
-
-                      {/* Blank Side spacer to balance columns */}
-                      <div className="hidden sm:block w-1/2" />
-                    </div>
-                  );
-                })}
-              </motion.div>
+                       key={exp.id}
+                       className={`flex flex-col sm:flex-row items-stretch relative ${
+                         isEven ? "sm:flex-row-reverse" : ""
+                       }`}
+                     >
+                       {/* Central Timeline Switch Node */}
+                       <div className="absolute left-4 sm:left-1/2 top-4 -translate-x-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#f59e0b] border-2 border-zinc-950 text-zinc-950 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)]">
+                         <Briefcase className="h-4.5 w-4.5 stroke-[2.5]" />
+                       </div>
+ 
+                       {/* Content Card Side */}
+                       <div className="w-full sm:w-1/2 pl-12 sm:pl-0 sm:px-8">
+                         <div className="bg-white dark:bg-[#1C1B19] border-2 border-zinc-950 dark:border-zinc-800 p-6 rounded-2xl shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] dark:shadow-[3px_3px_0px_0px_rgba(242,169,0,0.7)] hover:shadow-[5px_5px_0px_0px_rgba(242,169,0,1)] dark:hover:shadow-[5px_5px_0px_0px_rgba(242,169,0,1)] transition-all text-left">
+                           
+                           {/* Metadata row with custom badges */}
+                           <div className="flex flex-wrap items-center gap-2 mb-3">
+                             <span className="flex items-center space-x-1.5 text-xs font-mono font-bold text-zinc-950 bg-[#f59e0b] border border-zinc-950 px-2.5 py-1 rounded-md shadow-[1.5px_1.5px_0px_0px_rgba(24,24,27,1)]">
+                               <Calendar className="h-3 w-3" />
+                               <span>{t("exp-" + expIdNum + "_period")}</span>
+                             </span>
+                             <span className="flex items-center space-x-1 text-xs font-bold text-zinc-500 font-mono bg-zinc-100 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 px-2.5 py-1 rounded-sm">
+                               <MapPin className="h-3 w-3 text-rose-500" />
+                               <span>{t("exp-" + expIdNum + "_location")}</span>
+                             </span>
+                           </div>
+ 
+                           {/* Role and Company */}
+                           <h4 className="text-xl font-black text-zinc-900 dark:text-white uppercase tracking-tight leading-none mt-4">
+                             {t("exp-" + expIdNum + "_role")}
+                           </h4>
+                           <span className="text-xs font-mono tracking-wider font-extrabold text-[#f59e0b] block mt-1.5 mb-4 uppercase">
+                             {t("exp-" + expIdNum + "_company")}
+                           </span>
+ 
+                           {/* Bullets with custom indicators */}
+                           <ul className="space-y-3 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+                             {exp.bullets.map((_, idx) => (
+                               <li key={idx} className="flex items-start space-x-2.5 text-xs text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed">
+                                 <span className="h-2 w-2 rounded-full bg-[#f59e0b] mt-1 shrink-0 border border-zinc-950" />
+                                 <span>{t("exp-" + expIdNum + "_bullet_" + idx)}</span>
+                               </li>
+                             ))}
+                           </ul>
+ 
+                         </div>
+                       </div>
+ 
+                       {/* Blank Side spacer to balance columns */}
+                       <div className="hidden sm:block w-1/2" />
+                     </div>
+                   );
+                 })}
+               </motion.div>
             )}
 
             {activeTab === "education" && (
@@ -174,20 +177,20 @@ export default function ExperienceSection() {
                       </div>
                       <div className="space-y-1">
                         <h4 className="text-lg font-black text-zinc-950 dark:text-white uppercase tracking-tight leading-snug">
-                          {edu.degree}
+                          {t("edu_degree_" + idx)}
                         </h4>
                         <p className="text-sm font-bold text-[#f59e0b]">
-                          {edu.school}
+                          {t("edu_school_" + idx)}
                         </p>
                         <p className="text-xs text-zinc-550 dark:text-zinc-400 font-sans max-w-xl leading-relaxed mt-1 font-semibold">
-                          {edu.details}
+                          {t("edu_details_" + idx)}
                         </p>
                       </div>
                     </div>
 
                     <div className="shrink-0 flex items-center md:flex-col md:items-end justify-between font-mono">
                       <span className="text-xs font-bold text-zinc-950 bg-[#f59e0b] border border-zinc-950 px-2.5 py-1 rounded shadow-[1.5px_1.5px_0px_0px_rgba(24,24,27,1)]">
-                        {edu.period}
+                        {t("edu_period_" + idx)}
                       </span>
                     </div>
                   </div>
@@ -197,9 +200,9 @@ export default function ExperienceSection() {
                 <div className="p-6 bg-zinc-950 dark:bg-[#1C1B19] text-white rounded-2xl border-2 border-zinc-950 flex flex-col sm:flex-row items-start space-x-0 sm:space-x-4 space-y-3 sm:space-y-0 mt-4 shadow-[4px_4px_0px_0px_rgba(242,169,0,1)]">
                   <CheckCircle className="h-5 w-5 text-[#f59e0b] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="font-extrabold uppercase text-xs tracking-wider text-[#f59e0b] block mb-1">Riyadh Healthcare & Corporate Alignment</strong>
+                    <strong className="font-extrabold uppercase text-xs tracking-wider text-[#f59e0b] block mb-1">{t("riyadh_healthcare_alignment")}</strong>
                     <span className="text-xs text-zinc-300 font-medium leading-relaxed">
-                      The Caregiver & infant training courses acquired in Riyadh (SEED Training Center) equip me with strong compliance, safety, high-hygiene standards, and detailed log monitoring qualifications, translating directly to structured corporate wellness and workplace support roles.
+                      {t("riyadh_healthcare_alignment_desc")}
                     </span>
                   </div>
                 </div>
@@ -231,19 +234,19 @@ export default function ExperienceSection() {
                       <div className="space-y-4">
                         <div className="flex justify-between items-center">
                           <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase">
-                            Certification
+                            {t("certification")}
                           </span>
                           <Award className="h-5 w-5 text-[#f59e0b]" />
                         </div>
                         
                         <h4 className="text-base font-black text-zinc-900 dark:text-white uppercase tracking-tight leading-tight">
-                          {cert.name}
+                          {t("cert_name_" + index)}
                         </h4>
                       </div>
 
                       <div className="pt-6 mt-4 border-t border-zinc-150 dark:border-zinc-805 flex items-center justify-between">
                         <span className="text-xs font-bold text-zinc-650 dark:text-zinc-400">
-                          {cert.issuer}
+                          {t("cert_issuer_" + index)}
                         </span>
                         <span className="text-xs font-mono font-bold text-zinc-950 bg-[#f59e0b] border border-zinc-950 px-2.5 py-0.5 rounded shadow-[1px_1px_0px_0px_rgba(24,24,27,1)]">
                           {cert.year}

@@ -1,8 +1,10 @@
 import React from "react";
 import { Quote, Star, ArrowRight } from "lucide-react";
 import { TESTIMONIALS } from "../data";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function TestimonialsSection() {
+  const { t } = useLanguage();
   return (
     <section id="testimonials" className="relative py-24 bg-[#EAE7E1] dark:bg-[#181715] border-y-2 border-zinc-950 dark:border-zinc-800 scroll-mt-12 transition-colors duration-300 overflow-hidden">
       
@@ -26,13 +28,13 @@ export default function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20 relative">
           <div className="inline-block px-3 py-1.5 bg-[#f59e0b] text-zinc-950 text-[10px] font-mono uppercase tracking-widest font-black rounded-lg rotate-[-1deg] mb-4 select-none">
-            Endorsements
+            {t("endorsements_label")}
           </div>
           <h3 className="text-4xl sm:text-5xl font-sans font-black tracking-tight text-zinc-950 dark:text-white uppercase leading-tight">
-            Supervisor & Partner Testimonials
+            {t("endorsements_title")}
           </h3>
           <p className="mt-4 text-sm font-semibold text-zinc-700 dark:text-zinc-350 max-w-xl mx-auto">
-            Endorsements from previous supervisors, business owners, and operations managers validating my dedication, integrity, and operational execution speed.
+            {t("endorsements_desc")}
           </p>
         </div>
 
@@ -54,26 +56,26 @@ export default function TestimonialsSection() {
                   <Quote className="h-6 w-6 text-zinc-300 dark:text-zinc-700 group-hover:text-[#f59e0b] group-hover:scale-110 transition-all duration-300" />
                 </div>
 
-                {/* Endorsement quote text */}
+                 {/* Endorsement quote text */}
                 <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed italic font-medium">
-                  "{testimonial.quote}"
+                  "{t("testi_quote_" + testimonial.id)}"
                 </p>
               </div>
 
               {/* Endorsement author details */}
               <div className="mt-8 pt-6 border-t-2 border-zinc-100 dark:border-zinc-800 text-left">
                 <span className="block font-black text-zinc-950 dark:text-white uppercase tracking-tight text-lg">
-                  {testimonial.name}
+                  {t("testi_name_" + testimonial.id)}
                 </span>
                 <span className="block text-xs font-bold text-[#f59e0b] uppercase font-mono mt-0.5">
-                  {testimonial.role} &mdash; {testimonial.company}
+                  {t("testi_role_" + testimonial.id)} &mdash; {t("testi_company_" + testimonial.id)}
                 </span>
                 
                 {/* Author specialized tags */}
                 <div className="flex flex-wrap gap-1.5 mt-4">
                   {testimonial.tags.map((tag, idx) => (
                     <span key={idx} className="text-[9px] font-mono font-bold text-zinc-950 bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 rounded shadow-[1px_1px_0px_0px_rgba(24,24,27,1)]">
-                      #{tag.toUpperCase()}
+                      #{t("testi_tag_" + testimonial.id + "_" + idx)}
                     </span>
                   ))}
                 </div>
@@ -87,8 +89,8 @@ export default function TestimonialsSection() {
         <div className="mt-16 text-center max-w-2xl mx-auto p-5 bg-zinc-950 text-white rounded-2xl border-2 border-zinc-950 dark:border-zinc-800 shadow-[4px_4px_0px_0px_rgba(242,169,0,1)] flex items-start space-x-3.5">
           <Star className="h-5 w-5 text-[#f59e0b] shrink-0 mt-0.5 fill-[#f59e0b] animate-pulse" />
           <p className="text-xs text-left font-semibold text-zinc-350 leading-relaxed">
-            <strong className="text-white block uppercase tracking-wider mb-0.5">Official Reference Letters</strong>
-            Detailed, signed reference certificates from Mrs. Maryam Jaber and former operations superiors can be dispatched in PDF form upon interview scheduling requests.
+            <strong className="text-white block uppercase tracking-wider mb-0.5">{t("official_reference_letters")}</strong>
+            {t("official_reference_letters_desc")}
           </p>
         </div>
 

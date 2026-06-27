@@ -29,3 +29,38 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* Print Styles for CV */
+@media print {
+  html, body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #printable-cv, #printable-cv * {
+    visibility: visible;
+  }
+  #printable-cv {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  /* Ensure clean text and borders on paper */
+  #printable-cv * {
+    color: #000000 !important;
+    border-color: #d4d4d8 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  /* Avoid page breaks inside section headers */
+  h1, h2, h3, h4, .no-break {
+    page-break-inside: avoid;
+  }
+}
