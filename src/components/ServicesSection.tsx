@@ -3,11 +3,11 @@ import * as Icons from "lucide-react";
 import { SERVICES } from "../data";
 import { useLanguage } from "../context/LanguageContext";
 
-// Define workflow image paths as static asset string paths
-const HomecareLeadImage = "/src/assets/images/homecare_lead_automation_1782574571333.jpg";
-const DepartmentRoutingImage = "/src/assets/images/multi_branch_routing_1782574585786.jpg";
-const PossibleLeadsImage = "/src/assets/images/possible_leads_email_1782574598108.jpg";
-const ZapierWorkflowImage = "/src/assets/images/zapier_workflow_1782198710664.jpg";
+// Import workflow images directly so Vite bundles and resolves them in production
+import HomecareLeadImage from "../assets/images/homecare_lead_automation_1782574571333.jpg";
+import DepartmentRoutingImage from "../assets/images/multi_branch_routing_1782574585786.jpg";
+import PossibleLeadsImage from "../assets/images/possible_leads_email_1782574598108.jpg";
+import ZapierWorkflowImage from "../assets/images/zapier_workflow_1782198710664.jpg";
 
 interface ZapierWorkflow {
   id: string;
